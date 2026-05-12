@@ -17,9 +17,7 @@ _BOT_SIGNALS = {"px-captcha", "perimeterx", "access denied", "cf-challenge", "ju
 async def start_browser():
     global _pw, _browser
     _pw = await async_playwright().start()
-    # channel="chrome" uses the system Chrome binary, which has a real TLS fingerprint
-    # that bypasses Cloudflare and PerimeterX's initial page-load checks.
-    _browser = await _pw.chromium.launch(headless=True, channel="chrome")
+    _browser = await _pw.chromium.launch(headless=True)
 
 
 async def stop_browser():
