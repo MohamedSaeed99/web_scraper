@@ -55,6 +55,21 @@ def extract_product_info(html: str, base_url: str) -> dict:
                     if isinstance(offers, list):
                         offers = offers[0]
                     raw_price = offers.get("price") or offers.get("lowPrice")
+                    # priceSpecification array (e.g. Hollister): prefer spec
+                    # without priceType (current/sale) over ListPrice
+                    if not raw_price:
+                        specs = offers.get("priceSpecification", [])
+                        if isinstance(specs, dict):
+                            specs = [specs]
+                        for spec in specs:
+                            if "ListPrice" not in spec.get("priceType", ""):
+                                raw_price = spec.get("price")
+                                if raw_price:
+                                    break
+                        if not raw_price and specs:
+                            candidates = [float(s["price"]) for s in specs if s.get("price")]
+                            if candidates:
+                                raw_price = str(min(candidates))
                     if raw_price and price is None:
                         price = _parse_price(str(raw_price))
                     buy_link = offers.get("url") or buy_link
