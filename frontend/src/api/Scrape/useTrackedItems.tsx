@@ -13,7 +13,7 @@ export type TrackedItem = {
 };
 
 const fetchTrackedItems = async (): Promise<TrackedItem[]> => {
-    const response = await fetch("http://localhost:8000/scrape/");
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/scrape/`);
     if (!response.ok) throw new Error("Failed to fetch tracked items");
     return response.json();
 };

@@ -40,7 +40,7 @@ async def check_prices():
 
 async def _run():
     while True:
-        await asyncio.sleep(300)
+        await asyncio.sleep(3600)
         await check_prices()
 
 

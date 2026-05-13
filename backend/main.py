@@ -1,4 +1,5 @@
 import asyncio
+import os
 import sys
 from contextlib import asynccontextmanager
 
@@ -38,11 +39,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(scraperouter)
 
-origins = [
-    "http://localhost",
-    "http://localhost:5173",
-    "http://localhost:5174"
-]
+_cors_raw = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost,http://localhost:5173")
+origins = [o.strip() for o in _cors_raw.split(",") if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,

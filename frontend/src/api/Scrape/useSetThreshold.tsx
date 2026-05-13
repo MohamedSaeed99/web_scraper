@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const setThreshold = async ({ id, threshold }: { id: number; threshold: number }) => {
-    const response = await fetch(`http://localhost:8000/scrape/${id}/threshold`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/scrape/${id}/threshold`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ threshold }),

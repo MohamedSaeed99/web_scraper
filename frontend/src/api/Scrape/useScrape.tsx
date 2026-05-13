@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 const fetchScrapedData = async ({ url, email }: { url: string; email?: string }) => {
     const params = new URLSearchParams({ url });
     if (email) params.set("email", email);
-    const response = await fetch(`http://localhost:8000/scrape/?${params}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/scrape/?${params}`, {
         method: "POST",
     });
     if (!response.ok) {
