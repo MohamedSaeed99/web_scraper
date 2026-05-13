@@ -12,6 +12,9 @@ services:
   frontend:
     build:
       context: ./frontend
+      target: builder
+      args:
+        VITE_API_URL: http://localhost:8000
     ports:
       - "5173:5173"
     volumes:
@@ -19,5 +22,6 @@ services:
       - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+    command: npm run dev
     depends_on:
       - backend
