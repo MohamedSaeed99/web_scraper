@@ -17,7 +17,7 @@ _BOT_SIGNALS = {"px-captcha", "perimeterx", "access denied", "cf-challenge", "ju
 async def start_browser():
     global _pw, _browser
     _pw = await async_playwright().start()
-    _browser = await _pw.chromium.launch(headless=True)
+    _browser = await _pw.chromium.launch(headless=True, channel="chrome")
 
 
 async def stop_browser():
@@ -41,7 +41,7 @@ async def fetch_rendered_html(url: str) -> str:
         await _stealth.apply_stealth_async(page)
         # "load" waits for the load event; retail sites fire continuous XHR so
         # "networkidle" never triggers within 30s.  3s settle lets React finish.
-        await page.goto(url, wait_until="load", timeout=30000)
+        await page.goto(url, wait_until="load", timeout=60000)
         await page.wait_for_timeout(3000)
         html = await page.content()
 
