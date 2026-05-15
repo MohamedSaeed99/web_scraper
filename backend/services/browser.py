@@ -6,9 +6,8 @@ _browser: Browser | None = None
 _stealth = Stealth()
 
 _UA = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/124.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) "
+    "Gecko/20100101 Firefox/125.0"
 )
 
 _BOT_SIGNALS = {"px-captcha", "perimeterx", "access denied", "cf-challenge", "just a moment"}
@@ -17,7 +16,7 @@ _BOT_SIGNALS = {"px-captcha", "perimeterx", "access denied", "cf-challenge", "ju
 async def start_browser():
     global _pw, _browser
     _pw = await async_playwright().start()
-    _browser = await _pw.chromium.launch(headless=True, channel="chrome")
+    _browser = await _pw.firefox.launch(headless=True)
 
 
 async def stop_browser():
