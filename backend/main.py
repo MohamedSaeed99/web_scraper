@@ -29,6 +29,11 @@ async def lifespan(app: FastAPI):
             conn.commit()
         except Exception:
             pass  # column already exists
+        try:
+            conn.execute(text("ALTER TABLE tracked_items ADD COLUMN notified INTEGER NOT NULL DEFAULT 0"))
+            conn.commit()
+        except Exception:
+            pass  # column already exists
     await start_browser()
     start_scheduler()
     yield

@@ -24,13 +24,17 @@ async def check_prices():
                 if new_price is not None:
                     item.price = new_price
                     if item.threshold is not None and new_price <= item.threshold:
-                        send_threshold_alert(
-                            item_name=item.item_name,
-                            price=new_price,
-                            threshold=item.threshold,
-                            buy_link=item.buy_link or item.url,
-                            recipient=item.notify_email,
-                        )
+                        if not item.notified:
+                            send_threshold_alert(
+                                item_name=item.item_name,
+                                price=new_price,
+                                threshold=item.threshold,
+                                buy_link=item.buy_link or item.url,
+                                recipient=item.notify_email,
+                            )
+                            item.notified = True
+                    elif item.threshold is not None and new_price > item.threshold:
+                        item.notified = False
             except Exception as e:
                 print(f"[scheduler] Error checking {item.url}: {e}")
         db.commit()

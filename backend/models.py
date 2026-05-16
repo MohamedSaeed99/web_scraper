@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
 from database import Base
 
 
@@ -13,5 +13,6 @@ class TrackedItem(Base):
     buy_link = Column(String, nullable=True)
     threshold = Column(Float, nullable=True)
     notify_email = Column(String, nullable=True)
+    notified = Column(Boolean, default=False, nullable=False)
     last_checked = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)

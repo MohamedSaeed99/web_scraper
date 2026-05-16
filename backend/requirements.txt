@@ -6,3 +6,4 @@ validators
 bs4
 sqlalchemy
 python-dotenv
+resend
